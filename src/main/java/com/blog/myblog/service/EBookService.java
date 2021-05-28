@@ -5,10 +5,12 @@ import com.blog.myblog.domain.EBookExample;
 import com.blog.myblog.mapper.EBookMapper;
 import com.blog.myblog.request.EBookQueryRequest;
 import com.blog.myblog.request.EBookRequest;
+import com.blog.myblog.request.EBookSaveRequest;
 import com.blog.myblog.response.EBookQueryResponse;
 import com.blog.myblog.response.PageResponse;
 import com.blog.myblog.response.EBookResponse;
 import com.blog.myblog.utils.CopyUtil;
+import com.blog.myblog.utils.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -26,6 +28,9 @@ public class EBookService {
 
     @Resource
     private EBookMapper eBookMapper;
+
+    @Resource
+    private SnowFlake snowFlake;
 
     public PageResponse<EBookResponse> list(EBookRequest req) {
         EBookExample eBookExample = new EBookExample();
@@ -88,6 +93,17 @@ public class EBookService {
         LOG.info("page {}", pageInfo.getPages());
         LOG.info("pageNum {}", pageInfo.getPageNum());
         return  pageResponse;
+    }
 
+    public void save(EBookSaveRequest saveRequest) {
+        EBook eBook = CopyUtil.copy(saveRequest, EBook.class);
+        if (ObjectUtils.isEmpty(saveRequest.getId())){
+            // 新增
+            eBook.setId(snowFlake.nextId()); // 雪花算法
+            eBookMapper.insert(eBook);
+        } else {
+            // 更新
+            eBookMapper.updateByPrimaryKey(eBook);
+        }
     }
 }

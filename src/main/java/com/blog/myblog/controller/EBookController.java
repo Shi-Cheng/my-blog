@@ -2,14 +2,10 @@ package com.blog.myblog.controller;
 
 import com.blog.myblog.request.EBookQueryRequest;
 import com.blog.myblog.request.EBookRequest;
-import com.blog.myblog.response.EBookQueryResponse;
-import com.blog.myblog.response.PageResponse;
-import com.blog.myblog.response.CommonResponse;
-import com.blog.myblog.response.EBookResponse;
+import com.blog.myblog.request.EBookSaveRequest;
+import com.blog.myblog.response.*;
 import com.blog.myblog.service.EBookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -39,5 +35,12 @@ public class EBookController {
         PageResponse<EBookQueryResponse> list = eBookService.queryList(req);
         resp.setContent(list);
         return resp;
+    }
+
+    @PostMapping("/save")
+    public CommonResponse save(@RequestBody EBookSaveRequest req){
+        CommonResponse saveResponse = new CommonResponse<>();
+        eBookService.save(req);
+        return saveResponse;
     }
 }

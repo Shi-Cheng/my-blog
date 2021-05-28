@@ -10,10 +10,13 @@ GET http://localhost:8880/book/queryList?name=教材&page=1&size=2
 
 ###
 
-POST http://localhost:8880/ebook/save
+POST http://localhost:8880/book/save
 Content-Type: application/json
 
-{}
+{
+  "name": "GO",
+  "description": "GO 是最好的一门开发语言"
+}
 
 ###
 
