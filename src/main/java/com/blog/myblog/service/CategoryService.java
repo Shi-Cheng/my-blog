@@ -7,6 +7,7 @@ import com.blog.myblog.mapper.CategoryMapper;
 import com.blog.myblog.request.CategoryQueryRequest;
 import com.blog.myblog.request.CategorySaveRequest;
 import com.blog.myblog.request.DeleteRequest;
+import com.blog.myblog.request.QueryAllRequest;
 import com.blog.myblog.response.CategoryQueryResponse;
 import com.blog.myblog.response.PageResponse;
 import com.blog.myblog.utils.CopyUtil;
@@ -33,8 +34,19 @@ public class CategoryService {
     @Resource
     private SnowFlake snowFlake;
 
+    public List<CategoryQueryResponse> all() {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+
+        List<CategoryQueryResponse> responseList = CopyUtil.copyList(categoryList, CategoryQueryResponse.class);
+
+        return responseList;
+    }
+
     public PageResponse<CategoryQueryResponse> list(CategoryQueryRequest req) {
         CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
         CategoryExample.Criteria criteria = categoryExample.createCriteria();
 
         if(!ObjectUtils.isEmpty(req.getName())) {

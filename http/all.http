@@ -49,4 +49,8 @@ Content-Type: application/json
   "id": 504
 }
 
+###
+GET http://localhost:8880/category/all
+
+
 ##### Content-Type: application/x-www-form-urlencoded

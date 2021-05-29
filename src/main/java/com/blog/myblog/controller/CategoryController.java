@@ -3,6 +3,7 @@ package com.blog.myblog.controller;
 import com.blog.myblog.request.CategoryQueryRequest;
 import com.blog.myblog.request.CategorySaveRequest;
 import com.blog.myblog.request.DeleteRequest;
+import com.blog.myblog.request.QueryAllRequest;
 import com.blog.myblog.response.CategoryQueryResponse;
 import com.blog.myblog.response.CommonResponse;
 import com.blog.myblog.response.PageResponse;
@@ -10,12 +11,21 @@ import com.blog.myblog.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
     @Resource
     private CategoryService categoryService;
+
+    @GetMapping("/all")
+    public CommonResponse all(){
+        CommonResponse<List<CategoryQueryResponse>> response = new CommonResponse<>();
+        List<CategoryQueryResponse> list = categoryService.all();
+        response.setContent(list);
+        return  response;
+    }
 
     @GetMapping("/list")
     public CommonResponse list(CategoryQueryRequest req){
