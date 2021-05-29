@@ -1,5 +1,6 @@
 package com.blog.myblog.controller;
 
+import com.blog.myblog.request.DeleteRequest;
 import com.blog.myblog.request.EBookQueryRequest;
 import com.blog.myblog.request.EBookRequest;
 import com.blog.myblog.request.EBookSaveRequest;
@@ -8,6 +9,7 @@ import com.blog.myblog.service.EBookService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/book")
@@ -30,7 +32,7 @@ public class EBookController {
     }
 
     @GetMapping("/queryList")
-    public CommonResponse queryList(EBookQueryRequest req) {
+    public CommonResponse queryList(@Valid EBookQueryRequest req) {
         CommonResponse<PageResponse<EBookQueryResponse>> resp = new CommonResponse<>();
         PageResponse<EBookQueryResponse> list = eBookService.queryList(req);
         resp.setContent(list);
@@ -44,11 +46,11 @@ public class EBookController {
         return saveResponse;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public CommonResponse delete(@PathVariable long id) {
+    @PostMapping("/deleted")
+    public CommonResponse delete(@RequestBody DeleteRequest req) {
         CommonResponse res = new CommonResponse<>();
-        eBookService.delete(id);
-        return  res;
+        eBookService.delete(req);
+        return res;
 
     }
 }

@@ -3,6 +3,7 @@ package com.blog.myblog.service;
 import com.blog.myblog.domain.EBook;
 import com.blog.myblog.domain.EBookExample;
 import com.blog.myblog.mapper.EBookMapper;
+import com.blog.myblog.request.DeleteRequest;
 import com.blog.myblog.request.EBookQueryRequest;
 import com.blog.myblog.request.EBookRequest;
 import com.blog.myblog.request.EBookSaveRequest;
@@ -107,7 +108,7 @@ public class EBookService {
         }
     }
 
-    public void delete(long id){
-        eBookMapper.deleteByPrimaryKey(id);
+    public void delete(DeleteRequest req){
+        eBookMapper.deleteByPrimaryKey(req.getId());
     }
 }

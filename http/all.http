@@ -1,11 +1,11 @@
 GET http://localhost:8880/book/list
 
 ###
-GET http://localhost:8880/book/getList?name=教材&page=1&size=1
+GET http://localhost:8880/book/getList?name=教材&page=1&size=2
 
 
 ###
-GET http://localhost:8880/book/queryList?name=教材&page=1&size=2
+GET http://localhost:8880/book/queryList?name=教材&size=1&page=2
 
 
 ###
@@ -19,7 +19,12 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8880/book/delete?id=53479395351990272
+POST http://localhost:8880/book/deleted
+Content-Type: application/json
+
+{
+  "id": 53653283042103296
+}
 
 ###
 
