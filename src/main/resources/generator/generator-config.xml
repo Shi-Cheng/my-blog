@@ -40,9 +40,9 @@
                              targetPackage="com.blog.myblog.mapper"
                              type="XMLMAPPER"/>
 
-        <table tableName="t_ebook" domainObjectName="EBook"/>
+<!--        <table tableName="t_ebook" domainObjectName="EBook"/>-->
         <!--<table tableName="ebook"/>-->
-        <!--<table tableName="category"/>-->
+        <table tableName="t_category" domainObjectName="Category"/>
         <!--<table tableName="doc"/>-->
         <!--<table tableName="content"/>-->
         <!--<table tableName="user"/>-->

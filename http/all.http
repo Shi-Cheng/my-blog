@@ -28,9 +28,25 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:80/api/item
-Content-Type: application/x-www-form-urlencoded
+GET http://localhost:8880/category/list
+###
 
-id=99&content=new-element
+POST http://localhost:8880/category/save
+Content-Type: application/json
+
+{
+  "id": 504,
+  "parentId": 500,
+  "name": "颜色配置",
+  "sort": 504
+}
 
 ###
+POST http://localhost:8880/category/deleted
+Content-Type: application/json
+
+{
+  "id": 504
+}
+
+##### Content-Type: application/x-www-form-urlencoded
