@@ -42,10 +42,10 @@
 
 <!--        <table tableName="t_ebook" domainObjectName="EBook"/>-->
         <!--<table tableName="ebook"/>-->
-        <table tableName="t_category" domainObjectName="Category"/>
+<!--        <table tableName="t_category" domainObjectName="Category"/>-->
         <!--<table tableName="doc"/>-->
         <!--<table tableName="content"/>-->
-        <!--<table tableName="user"/>-->
+        <table tableName="t_user" domainObjectName="User"/>
         <!--<table tableName="ebook_snapshot"/>-->
     </context>
 </generatorConfiguration>
