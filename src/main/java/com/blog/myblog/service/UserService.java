@@ -2,24 +2,31 @@ package com.blog.myblog.service;
 
 import com.blog.myblog.domain.User;
 import com.blog.myblog.domain.UserExample;
+import com.blog.myblog.exception.BusinessException;
+import com.blog.myblog.exception.BusinessExceptionCode;
 import com.blog.myblog.mapper.UserMapper;
-import com.blog.myblog.request.DeleteRequest;
-import com.blog.myblog.request.UserQueryRequest;
-import com.blog.myblog.request.UserSaveRequest;
+import com.blog.myblog.request.*;
 import com.blog.myblog.response.PageResponse;
+import com.blog.myblog.response.UserLoginResponse;
 import com.blog.myblog.response.UserQueryResponse;
 import com.blog.myblog.utils.CopyUtil;
 import com.blog.myblog.utils.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class UserService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Resource
     private SnowFlake snowFlake;
@@ -27,6 +34,10 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
+    /**
+     * 新增和更新用户
+     * @param req
+     */
     public void save(UserSaveRequest req) {
         User user = CopyUtil.copy(req, User.class);
         if (!ObjectUtils.isEmpty(user.getId())) {
@@ -39,6 +50,10 @@ public class UserService {
         }
     }
 
+    /**
+     * 删除用户
+     * @param req
+     */
     public void delete(DeleteRequest req) {
         User user = CopyUtil.copy(req, User.class);
         if (ObjectUtils.isEmpty(user.getId())) {
@@ -46,6 +61,11 @@ public class UserService {
         }
     }
 
+    /**
+     * 用户查询
+     * @param req
+     * @return
+     */
     public PageResponse<UserQueryResponse> list(UserQueryRequest req) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
@@ -67,5 +87,53 @@ public class UserService {
         pageResponse.setTotal(pageInfo.getTotal());
         pageResponse.setPage(pageInfo.getPages());
         return pageResponse;
+    }
+
+    /**
+     * 用户登录
+     * @param req
+     * @return
+     */
+    public UserLoginResponse login(UserLoginRequest req) {
+        User user = selectUserByName(req.getLoginName());
+        if (ObjectUtils.isEmpty(user.getLoginName())) {
+            // 用户名不存在
+            LOG.info("用户名不存在, {}", req.getLoginName());
+            throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+        } else {
+            if (user.getPassword().equals(req.getPassword())) {
+                UserLoginResponse loginResponse = CopyUtil.copy(user, UserLoginResponse.class);
+                return loginResponse;
+            } else {
+                // 密码不正确
+                LOG.info("用户密码不正确");
+                throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
+            }
+        }
+    }
+
+    /**
+     * 重置密码
+     * @param req
+     */
+    public void resetPassword(UserResetPasswordRequest req) {
+        User user = CopyUtil.copy(req, User.class);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public User selectUserByName(String loginName) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        if (ObjectUtils.isEmpty(loginName)) {
+            criteria.andNameEqualTo(loginName);
+        }
+
+        List<User> users = userMapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(users)) {
+            LOG.info("登录成功");
+            return null;
+        } else {
+            return users.get(0);
+        }
     }
 }

@@ -24,7 +24,7 @@ public class EBookController {
     //}
 
     @GetMapping("/getList")
-    public CommonResponse list(EBookRequest req) {
+    public CommonResponse<PageResponse<EBookResponse>> list(EBookRequest req) {
         CommonResponse<PageResponse<EBookResponse>> resp = new CommonResponse<>();
         PageResponse<EBookResponse> list = eBookService.list(req);
         resp.setContent(list);
@@ -32,7 +32,7 @@ public class EBookController {
     }
 
     @GetMapping("/queryList")
-    public CommonResponse queryList(@Valid EBookQueryRequest req) {
+    public CommonResponse<PageResponse<EBookQueryResponse>> queryList(@Valid EBookQueryRequest req) {
         CommonResponse<PageResponse<EBookQueryResponse>> resp = new CommonResponse<>();
         PageResponse<EBookQueryResponse> list = eBookService.queryList(req);
         resp.setContent(list);
@@ -40,17 +40,16 @@ public class EBookController {
     }
 
     @PostMapping("/save")
-    public CommonResponse save(@RequestBody EBookSaveRequest req){
-        CommonResponse saveResponse = new CommonResponse<>();
+    public CommonResponse<EBookResponse> save(@RequestBody EBookSaveRequest req){
+        CommonResponse<EBookResponse> saveResponse = new CommonResponse<>();
         eBookService.save(req);
         return saveResponse;
     }
 
     @PostMapping("/deleted")
-    public CommonResponse delete(@RequestBody DeleteRequest req) {
-        CommonResponse res = new CommonResponse<>();
+    public CommonResponse<DeleteRequest> delete(@RequestBody DeleteRequest req) {
+        CommonResponse<DeleteRequest> res = new CommonResponse<>();
         eBookService.delete(req);
         return res;
-
     }
 }

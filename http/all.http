@@ -54,3 +54,12 @@ GET http://localhost:8880/category/all
 
 
 ##### Content-Type: application/x-www-form-urlencoded
+
+
+GET http://localhost:8880/test/set/1231/adc
+###
+
+
+GET http://localhost:8880/test/get/12314
+###
+
