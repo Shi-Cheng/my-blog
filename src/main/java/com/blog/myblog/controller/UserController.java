@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -48,14 +49,14 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public CommonResponse<User> save(UserSaveRequest req) {
+    public CommonResponse<User> save(@Valid UserSaveRequest req) {
         CommonResponse<User> commonResponse = new CommonResponse<>();
         userService.save(req);
         return  commonResponse;
     }
 
     @PostMapping("/login")
-    public CommonResponse<UserLoginResponse> login(UserLoginRequest req) {
+    public CommonResponse<UserLoginResponse> login(@Valid UserLoginRequest req) {
         CommonResponse<UserLoginResponse> commonResponse = new CommonResponse<>();
         UserLoginResponse loginResponse = userService.login(req);
 

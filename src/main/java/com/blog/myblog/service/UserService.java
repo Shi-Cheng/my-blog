@@ -41,11 +41,19 @@ public class UserService {
     public void save(UserSaveRequest req) {
         User user = CopyUtil.copy(req, User.class);
         if (!ObjectUtils.isEmpty(user.getId())) {
-            // 新增用户
-            user.setId(snowFlake.nextId());
-            userMapper.insert(user);
+            User userDB = selectUserByName(req.getName());
+            if (ObjectUtils.isEmpty(userDB)) {
+                // 新增用户
+                user.setId(snowFlake.nextId());
+                userMapper.insert(user);
+            }
+            // 用户名存在
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
         } else{
             // 更新用户
+            // 不更新 用户名和密码
+            user.setName(null);
+            user.setPassword(null);
             userMapper.updateByPrimaryKey(user);
         }
     }

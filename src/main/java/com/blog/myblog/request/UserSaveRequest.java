@@ -1,11 +1,19 @@
 package com.blog.myblog.request;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+
 public class UserSaveRequest {
 
+    @NotNull(message = "【用户名】不能为空")
     private String loginName;
 
+    @NotNull(message = "【昵称】不能为空")
     private String name;
 
+    @NotNull(message = "【密码】不能为空")
+    @Length(min = 6, max = 20, message = "【密码】6~20位")
     private String password;
 
     public String getLoginName() {
