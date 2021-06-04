@@ -12,6 +12,7 @@ import com.blog.myblog.utils.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -34,7 +35,7 @@ public class UserController {
     private RedisTemplate redisTemplate;
 
     @GetMapping("/list")
-    public CommonResponse<PageResponse<UserQueryResponse>> list(UserQueryRequest req) {
+    public CommonResponse<PageResponse<UserQueryResponse>> list(@Valid  UserQueryRequest req) {
         CommonResponse<PageResponse<UserQueryResponse>> response = new CommonResponse<>();
         PageResponse<UserQueryResponse> list = userService.list(req);
         response.setContent(list);
@@ -42,24 +43,28 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public CommonResponse<DeleteRequest> delete(DeleteRequest req) {
+    public CommonResponse<DeleteRequest> delete(@RequestBody  DeleteRequest req) {
         CommonResponse<DeleteRequest> commonResponse = new CommonResponse<>();
         userService.delete(req);
         return  commonResponse;
     }
 
     @PostMapping("/add")
-    public CommonResponse<User> save(@Valid UserSaveRequest req) {
+    public CommonResponse<User> save(@Valid @RequestBody UserSaveRequest req) {
         CommonResponse<User> commonResponse = new CommonResponse<>();
+
         userService.save(req);
         return  commonResponse;
     }
 
     @PostMapping("/login")
-    public CommonResponse<UserLoginResponse> login(@Valid UserLoginRequest req) {
+    public CommonResponse<UserLoginResponse> login(@Valid @RequestBody UserLoginRequest req) {
         CommonResponse<UserLoginResponse> commonResponse = new CommonResponse<>();
         UserLoginResponse loginResponse = userService.login(req);
 
+        /**
+         * 设置token
+         */
         Long token = snowFlake.nextId();
         loginResponse.setToken(token.toString());
         redisTemplate.opsForValue().set(token.toString(), JSONObject.toJSONString(loginResponse), 3600 * 24, TimeUnit.SECONDS);
@@ -68,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping("/reset")
-    public CommonResponse resetPassword(UserResetPasswordRequest req) {
+    public CommonResponse resetPassword(@Valid @RequestBody UserResetPasswordRequest req) {
         CommonResponse commonResponse = new CommonResponse<>();
         userService.resetPassword(req);
         return  commonResponse;

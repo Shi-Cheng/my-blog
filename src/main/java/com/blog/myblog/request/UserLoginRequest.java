@@ -1,16 +1,16 @@
 package com.blog.myblog.request;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 public class UserLoginRequest {
 
-    @NotNull(message = "【用户名】不能为空")
+    @NotEmpty(message = "【用户名】不能为空")
     private String loginName;
 
-    @NotNull(message = "【昵称】不能为空")
+    @NotEmpty(message = "【昵称】不能为空")
     private String name;
 
-    @NotNull(message = "【密码】不能为空")
+    @NotEmpty(message = "【密码】不能为空")
     private String password;
 
 

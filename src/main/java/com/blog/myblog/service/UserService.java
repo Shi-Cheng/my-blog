@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
@@ -39,22 +40,28 @@ public class UserService {
      * @param req
      */
     public void save(UserSaveRequest req) {
+        /**
+         * 密码加密
+         */
+        req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         User user = CopyUtil.copy(req, User.class);
-        if (!ObjectUtils.isEmpty(user.getId())) {
+        LOG.info("新增用户：{}", user);
+        if (ObjectUtils.isEmpty(user.getId())) {
             User userDB = selectUserByName(req.getName());
             if (ObjectUtils.isEmpty(userDB)) {
                 // 新增用户
                 user.setId(snowFlake.nextId());
                 userMapper.insert(user);
+            } else {
+                // 用户名存在
+                throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
             }
-            // 用户名存在
-            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
         } else{
             // 更新用户
             // 不更新 用户名和密码
             user.setName(null);
             user.setPassword(null);
-            userMapper.updateByPrimaryKey(user);
+            userMapper.updateByPrimaryKeySelective(user);
         }
     }
 
@@ -64,7 +71,7 @@ public class UserService {
      */
     public void delete(DeleteRequest req) {
         User user = CopyUtil.copy(req, User.class);
-        if (ObjectUtils.isEmpty(user.getId())) {
+        if (!ObjectUtils.isEmpty(user.getId())) {
             userMapper.deleteByPrimaryKey(req.getId());
         }
     }
@@ -114,7 +121,7 @@ public class UserService {
                 return loginResponse;
             } else {
                 // 密码不正确
-                LOG.info("用户密码不正确");
+                LOG.info("用户密码不正确, 输入密码{}, 数据库密码{}", req.getPassword(), user.getPassword());
                 throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
             }
         }
@@ -129,6 +136,11 @@ public class UserService {
         userMapper.updateByPrimaryKeySelective(user);
     }
 
+    /**
+     * 判断用户是否存在
+     * @param loginName
+     * @return
+     */
     public User selectUserByName(String loginName) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();

@@ -45,7 +45,9 @@
 <!--        <table tableName="t_category" domainObjectName="Category"/>-->
         <!--<table tableName="doc"/>-->
         <!--<table tableName="content"/>-->
-        <table tableName="t_user" domainObjectName="User"/>
+<!--        <table tableName="t_user" domainObjectName="User"/>-->
         <!--<table tableName="ebook_snapshot"/>-->
+<!--        <table tableName="t_role" domainObjectName="Role"/>-->
+        <table tableName="t_menu" domainObjectName="Menu"/>
     </context>
 </generatorConfiguration>
