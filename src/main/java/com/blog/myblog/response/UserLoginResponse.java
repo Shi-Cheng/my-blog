@@ -1,5 +1,7 @@
 package com.blog.myblog.response;
 
+import java.util.List;
+
 public class UserLoginResponse {
     private Long id;
 
@@ -7,7 +9,13 @@ public class UserLoginResponse {
 
     private String name;
 
-    private String token;
+    private Long token;
+
+    private String roleName;
+
+    private String roleDescription;
+
+    private List<String> access;
 
     public Long getId() {
         return id;
@@ -33,12 +41,36 @@ public class UserLoginResponse {
         this.name = name;
     }
 
-    public String getToken() {
+    public Long getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(Long token) {
         this.token = token;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
+    }
+
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
+
+    public List<String> getAccess() {
+        return access;
+    }
+
+    public void setAccess(List<String> access) {
+        this.access = access;
     }
 
     @Override
@@ -48,6 +80,9 @@ public class UserLoginResponse {
                 ", loginName='" + loginName + '\'' +
                 ", name='" + name + '\'' +
                 ", token='" + token + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", roleDescription='" + roleDescription + '\'' +
+                ", access=" + access +
                 '}';
     }
 }

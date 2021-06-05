@@ -3,20 +3,20 @@ package com.blog.myblog.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.blog.myblog.domain.User;
 import com.blog.myblog.request.*;
-import com.blog.myblog.response.CommonResponse;
-import com.blog.myblog.response.PageResponse;
-import com.blog.myblog.response.UserLoginResponse;
-import com.blog.myblog.response.UserQueryResponse;
+import com.blog.myblog.response.*;
 import com.blog.myblog.service.UserService;
+import com.blog.myblog.utils.MD5Util;
 import com.blog.myblog.utils.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -24,6 +24,9 @@ import java.util.concurrent.TimeUnit;
 public class UserController {
 
     private final static Logger LOG = LoggerFactory.getLogger(UserController.class);
+
+    @Value("${token.key}")
+    private String tokenKey;
 
     @Resource
     private UserService userService;
@@ -33,6 +36,10 @@ public class UserController {
 
     @Resource
     private RedisTemplate redisTemplate;
+    
+    @Resource
+    private MD5Util md5Util;
+    
 
     @GetMapping("/list")
     public CommonResponse<PageResponse<UserQueryResponse>> list(@Valid  UserQueryRequest req) {
@@ -58,17 +65,29 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public CommonResponse<UserLoginResponse> login(@Valid @RequestBody UserLoginRequest req) {
-        CommonResponse<UserLoginResponse> commonResponse = new CommonResponse<>();
+    public CommonResponse<TokenResponse> login(@Valid @RequestBody UserLoginRequest req) {
+        CommonResponse<TokenResponse> commonResponse = new CommonResponse<>();
         UserLoginResponse loginResponse = userService.login(req);
 
+        //String md5Str = md5Util.md5(loginResponse.getId().toString(), tokenKey);
         /**
          * 设置token
          */
-        Long token = snowFlake.nextId();
-        loginResponse.setToken(token.toString());
-        redisTemplate.opsForValue().set(token.toString(), JSONObject.toJSONString(loginResponse), 3600 * 24, TimeUnit.SECONDS);
-        commonResponse.setContent(loginResponse);
+        //Long token = snowFlake.nextId();
+        LOG.info("loginResponse:{}", loginResponse);
+        TokenResponse tokenResponse = new TokenResponse();
+        tokenResponse.setToken(loginResponse.getName());
+        redisTemplate.opsForValue().set(loginResponse.getName(), JSONObject.toJSONString(tokenResponse), 3600 * 24, TimeUnit.SECONDS);
+        commonResponse.setContent(tokenResponse);
+        return  commonResponse;
+    }
+
+    @GetMapping("info")
+    public CommonResponse<UserLoginResponse> getInfo(@RequestParam String token) {
+        CommonResponse commonResponse = new CommonResponse<>();
+        UserLoginResponse userInfo = userService.getUserInfo(token);
+        commonResponse.setContent(userInfo);
+
         return  commonResponse;
     }
 

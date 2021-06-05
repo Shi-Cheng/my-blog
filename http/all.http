@@ -90,10 +90,15 @@ Content-Type: application/json
 {
   "id": "55819333145858048"
 }
+
+###
+GET http://localhost:8880/user/info?token=test
+
 ##### Content-Type: application/x-www-form-urlencoded
+GET http://localhost:9999/admin/get_info?token=B5782E19B0AA8689AAEBC03DC996EE30
+####
 
-
-GET http://localhost:8880/user/logout/55819333145858048
+GET http://localhost:8880/user/logout/test
 
 #######
 
@@ -101,6 +106,6 @@ GET http://localhost:8880/test/set/1231/adc
 ###
 
 
-GET http://localhost:8880/test/get/55819333145858048
+GET http://localhost:8880/test/get/56205866600370176
 ###
 

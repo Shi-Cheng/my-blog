@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.myblog.mapper.UserMenuMapper">
+
+  <select id="selectUserMenuList" resultType="com.blog.myblog.domain.RoleMenu">
+    select rolemenu.id as id, rolemenu.role_id as roleId, rolemenu.menu_id as menuId, t_menu.pid as pId
+    from
+        t_role_menu rolemenu,
+        t_menu,
+        (select * from t_user_role where user_id = #{id}) as userrole
+    where rolemenu.role_id = userrole.role_id and rolemenu.menu_id = t_menu.id;
+  </select>
+
+  <select id="selectMenu" resultType="com.blog.myblog.domain.RoleMenu">
+    select * from t_role_menu  where t_role_menu.role_id = #{id}
+  </select>
+</mapper>

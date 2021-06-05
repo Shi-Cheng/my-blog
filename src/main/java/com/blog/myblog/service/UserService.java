@@ -1,26 +1,30 @@
 package com.blog.myblog.service;
 
-import com.blog.myblog.domain.User;
-import com.blog.myblog.domain.UserExample;
+import com.blog.myblog.domain.*;
 import com.blog.myblog.exception.BusinessException;
 import com.blog.myblog.exception.BusinessExceptionCode;
+import com.blog.myblog.mapper.RoleMapper;
 import com.blog.myblog.mapper.UserMapper;
+import com.blog.myblog.mapper.UserMenuMapper;
+import com.blog.myblog.mapper.UserRoleMapper;
 import com.blog.myblog.request.*;
-import com.blog.myblog.response.PageResponse;
-import com.blog.myblog.response.UserLoginResponse;
-import com.blog.myblog.response.UserQueryResponse;
+import com.blog.myblog.response.*;
+import com.blog.myblog.utils.ArrayListUtil;
 import com.blog.myblog.utils.CopyUtil;
 import com.blog.myblog.utils.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +39,20 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private RedisTemplate redisTemplate;
+
+    @Resource
+    private UserMenuMapper userMenuMapper;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
+    @Resource
+    private ArrayListUtil arrayListUtil;
+
+    @Resource
+    private RoleMapper roleMapper;
     /**
      * 新增和更新用户
      * @param req
@@ -117,8 +135,8 @@ public class UserService {
             throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
         } else {
             if (user.getPassword().equals(req.getPassword())) {
-                UserLoginResponse loginResponse = CopyUtil.copy(user, UserLoginResponse.class);
-                return loginResponse;
+                UserLoginResponse response = CopyUtil.copy(user, UserLoginResponse.class);
+                return response;
             } else {
                 // 密码不正确
                 LOG.info("用户密码不正确, 输入密码{}, 数据库密码{}", req.getPassword(), user.getPassword());
@@ -134,6 +152,28 @@ public class UserService {
     public void resetPassword(UserResetPasswordRequest req) {
         User user = CopyUtil.copy(req, User.class);
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+
+    public UserLoginResponse getUserInfo(String token) {
+        User user = selectUserByName(token);
+        if (ObjectUtils.isEmpty(user)) {
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+        } else {
+            List<RoleMenu> roles = userMenuMapper.selectUserMenuList(user.getId().toString());
+            List<Role> userRole = userRoleMapper.selectUserRole(user.getId().toString());
+            Role role = CopyUtil.copy(userRole.get(0), Role.class);
+            List<RoleMenuResponse> roleMenuResponses = CopyUtil.copyList(roles, RoleMenuResponse.class);
+            List<String> menuLists = selectMenuId(roleMenuResponses);
+            List<String> list = arrayListUtil.duplicate(menuLists);
+            UserLoginResponse loginResponse = CopyUtil.copy(user, UserLoginResponse.class);
+            loginResponse.setToken(snowFlake.nextId());
+            loginResponse.setRoleName(role.getName());
+            loginResponse.setRoleDescription(role.getDescription());
+            loginResponse.setAccess(list);
+            LOG.info("用户登录信息: {}", loginResponse);
+            return  loginResponse;
+        }
     }
 
     /**
@@ -156,4 +196,29 @@ public class UserService {
             return users.get(0);
         }
     }
+
+    public Role selectRoleByIdOrName(String type,Object req) {
+        RoleExample roleExample = new RoleExample();
+        RoleExample.Criteria criteria = roleExample.createCriteria();
+        if (type.equalsIgnoreCase("id")) {
+            criteria.andRoleIdEqualTo((Long) req);
+        } else {
+            criteria.andNameEqualTo(req.toString());
+        }
+        List<Role> roles = roleMapper.selectByExample(roleExample);
+        if (CollectionUtils.isEmpty(roles)){
+            return  null;
+        } else {
+            return roles.get(0);
+        }
+    }
+
+    public List<String> selectMenuId(List<RoleMenuResponse> roles) {
+        List<String> roleList = new ArrayList<>();
+        for (int i = 0; i < roles.size(); i++) {
+            roleList.add(roles.get(i).getpId());
+        }
+        return  roleList;
+    }
+
 }
