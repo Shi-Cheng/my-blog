@@ -3,9 +3,19 @@ package com.blog.myblog.service;
 import com.blog.myblog.domain.Doc;
 import com.blog.myblog.domain.DocExample;
 import com.blog.myblog.mapper.DocMapper;
+import com.blog.myblog.mapper.DocMapperCust;
+import com.blog.myblog.request.DeleteRequest;
+import com.blog.myblog.request.DocRequest;
+import com.blog.myblog.request.DocSaveRequest;
 import com.blog.myblog.response.DocQueryResponse;
+import com.blog.myblog.response.PageResponse;
 import com.blog.myblog.utils.CopyUtil;
+import com.blog.myblog.utils.SnowFlake;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -16,8 +26,54 @@ import java.util.List;
 @Service
 public class DocService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DocService.class);
+
     @Resource
     private DocMapper docMapper;
+
+    @Resource
+    private SnowFlake snowFlake;
+
+    @Resource
+    private DocMapperCust docMapperCust;
+
+    public void add(DocSaveRequest req) {
+        Doc doc = CopyUtil.copy(req, Doc.class);
+        if (ObjectUtils.isEmpty(req.getId())){
+            // 新增
+            doc.setId(snowFlake.nextId());
+            doc.setViewCount(0);
+            doc.setVoteCount(0);
+            docMapper.insert(doc);
+        } else {
+            // 更新
+            docMapper.updateByPrimaryKey(doc);
+        }
+    }
+
+    public PageResponse<DocQueryResponse> list(DocRequest req) {
+        DocExample docExample = new DocExample();
+        DocExample.Criteria criteria = docExample.createCriteria();
+
+        if (!ObjectUtils.isEmpty(req.getName())){
+            criteria.andNameLike("%" + req.getName() + "%");
+        }
+
+        PageHelper.startPage(req.getPage(), req.getSize());
+        List<Doc> docs = docMapper.selectByExample(docExample);
+
+        PageInfo<Doc> pageInfo = new PageInfo<>(docs);
+        LOG.info("总行数：{}", pageInfo.getTotal());
+        LOG.info("总页数：{}", pageInfo.getPages());
+        List<DocQueryResponse> docQueryResponses = CopyUtil.copyList(docs, DocQueryResponse.class);
+
+        PageResponse<DocQueryResponse> pageResponse = new PageResponse<>();
+        pageResponse.setPage(pageInfo.getPages());
+        pageResponse.setTotal(pageInfo.getTotal());
+        pageResponse.setList(docQueryResponses);
+
+        return  pageResponse;
+    }
 
     public List<DocQueryResponse> getDocTree() {
         DocExample docExample = new DocExample();
@@ -35,6 +91,19 @@ public class DocService {
             d.setChildren(itemResponse);
         }
         return docQueryParentList;
+    }
+
+    public Doc findContent(Long id) {
+        Doc doc = docMapper.selectByPrimaryKey(id);
+        docMapperCust.increaseDocViewCount(id);
+        return doc;
+    }
+    public void vote(Long id) {
+        docMapperCust.increaseDocVoteCount(id);
+    }
+
+    public void delete(DeleteRequest req) {
+        docMapper.deleteByPrimaryKey(req.getId());
     }
 
     private List<Doc> getParentList(List<Doc> list) {
