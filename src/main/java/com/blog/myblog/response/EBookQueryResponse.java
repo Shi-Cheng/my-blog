@@ -14,7 +14,6 @@ public class EBookQueryResponse {
 
     private Integer voteCount;
 
-
     public String getName() {
         return name;
     }
@@ -63,19 +62,16 @@ public class EBookQueryResponse {
         this.voteCount = voteCount;
     }
 
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", name=").append(name);
-        sb.append(", description=").append(description);
-        sb.append(", cover=").append(cover);
-        sb.append(", docCount=").append(docCount);
-        sb.append(", viewCount=").append(viewCount);
-        sb.append(", voteCount=").append(voteCount);
-        sb.append("]");
-        return sb.toString();
+        return "EBookQueryResponse{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", cover='" + cover + '\'' +
+                ", docCount=" + docCount +
+                ", viewCount=" + viewCount +
+                ", voteCount=" + voteCount +
+                '}';
     }
 }

@@ -2,16 +2,21 @@ package com.blog.myblog.request;
 
 import javax.validation.constraints.NotEmpty;
 
-public class CategorySaveRequest {
+public class DocQueryRequest {
     private Long id;
+
+    private Long ebookId;
 
     private Long parentId;
 
     @NotEmpty(message = "【名称】不能为空")
     private String name;
 
-    @NotEmpty(message = "【排序】不能为空")
     private Integer sort;
+
+    private Integer viewCount;
+
+    private Integer voteCount;
 
     public Long getId() {
         return id;
@@ -19,6 +24,14 @@ public class CategorySaveRequest {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getEbookId() {
+        return ebookId;
+    }
+
+    public void setEbookId(Long ebookId) {
+        this.ebookId = ebookId;
     }
 
     public Long getParentId() {
@@ -45,6 +58,22 @@ public class CategorySaveRequest {
         this.sort = sort;
     }
 
+    public Integer getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public Integer getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -52,9 +81,12 @@ public class CategorySaveRequest {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", ebookId=").append(ebookId);
         sb.append(", parentId=").append(parentId);
         sb.append(", name=").append(name);
         sb.append(", sort=").append(sort);
+        sb.append(", viewCount=").append(viewCount);
+        sb.append(", voteCount=").append(voteCount);
         sb.append("]");
         return sb.toString();
     }

@@ -39,6 +39,7 @@ public class EBookService {
         if (!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
+
         if (!ObjectUtils.isEmpty(req.getDescription())){
             criteria.andDescriptionLike("%" + req.getDescription() + "%");
         }
@@ -74,6 +75,9 @@ public class EBookService {
 
         if (!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
+        }
+        if (!ObjectUtils.isEmpty(req.getCategoryId2())) {
+            criteria.andCategory2IdEqualTo(req.getCategoryId2());
         }
         if (!ObjectUtils.isEmpty(req.getDescription())) {
             criteria.andDescriptionLike("%" + req.getDescription() + "%");

@@ -1,5 +1,7 @@
 package com.blog.myblog.response;
 
+import java.util.List;
+
 public class CategoryQueryResponse {
 
     private Long id;
@@ -9,6 +11,8 @@ public class CategoryQueryResponse {
     private String name;
 
     private Integer sort;
+
+    private List<CategoryQueryResponse> children;
 
     public Long getId() {
         return id;
@@ -42,6 +46,14 @@ public class CategoryQueryResponse {
         this.sort = sort;
     }
 
+    public List<CategoryQueryResponse> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<CategoryQueryResponse> children) {
+        this.children = children;
+    }
+
     @Override
     public String toString() {
         return "CategoryQueryResponse{" +
@@ -49,6 +61,7 @@ public class CategoryQueryResponse {
                 ", parentId=" + parentId +
                 ", name='" + name + '\'' +
                 ", sort=" + sort +
+                ", children=" + children +
                 '}';
     }
 }

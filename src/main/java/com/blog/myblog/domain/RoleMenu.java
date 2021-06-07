@@ -7,8 +7,6 @@ public class RoleMenu {
 
     private String menuId;
 
-    private String pId;
-
     public Long getId() {
         return id;
     }
@@ -33,21 +31,16 @@ public class RoleMenu {
         this.menuId = menuId;
     }
 
-    public String getpId() {
-        return pId;
-    }
-
-    public void setpId(String pId) {
-        this.pId = pId;
-    }
-
     @Override
     public String toString() {
-        return "RoleMenu{" +
-                "id=" + id +
-                ", roleId='" + roleId + '\'' +
-                ", menuId='" + menuId + '\'' +
-                ", pId='" + pId + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", roleId=").append(roleId);
+        sb.append(", menuId=").append(menuId);
+        sb.append("]");
+        return sb.toString();
     }
 }

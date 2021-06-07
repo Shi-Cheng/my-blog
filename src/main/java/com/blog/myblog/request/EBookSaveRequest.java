@@ -1,9 +1,12 @@
 package com.blog.myblog.request;
 
+import javax.validation.constraints.NotEmpty;
+
 public class EBookSaveRequest {
 
     private Long id;
 
+    @NotEmpty(message = "【名称】不能为空")
     private String name;
 
     private String description;

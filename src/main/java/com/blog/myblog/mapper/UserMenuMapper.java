@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserMenuMapper {
 
-    public List<RoleMenu> selectUserMenuList(@Param("id") String id);
+    List<RoleMenu> selectUserMenuList(@Param("id") String id);
 
-    public List<RoleMenu> selectMenu(@Param("id") Integer id);
+    List<RoleMenu> selectMenu(@Param("id") Integer id);
 }

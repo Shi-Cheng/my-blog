@@ -1,5 +1,8 @@
 package com.blog.myblog.domain;
 
+/**
+ * 分类表设计，项目中实现简单而两级分类，但是表设计是支持无限级，是一个简单的树形结构
+ */
 public class Category {
     private Long id;
 

@@ -8,6 +8,8 @@ public class EBookQueryRequest extends PageRequest {
 
     private String description;
 
+    private Long categoryId2;
+
     public Long getId() {
         return id;
     }
@@ -32,12 +34,21 @@ public class EBookQueryRequest extends PageRequest {
         this.description = description;
     }
 
+    public Long getCategoryId2() {
+        return categoryId2;
+    }
+
+    public void setCategoryId2(Long categoryId2) {
+        this.categoryId2 = categoryId2;
+    }
+
     @Override
     public String toString() {
         return "EBookQueryRequest{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                '}';
+                ", categoryId2=" + categoryId2 +
+                "} " + super.toString();
     }
 }
