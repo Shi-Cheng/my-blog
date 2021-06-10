@@ -25,7 +25,7 @@ public class DocController {
     public CommonResponse getDocTree() {
         CommonResponse commonResponse = new CommonResponse<>();
         List<DocQueryResponse> docTree = docService.getDocTree();
-        commonResponse.setContent(docTree);
+        commonResponse.setData(docTree);
         return  commonResponse;
     }
 
@@ -33,7 +33,7 @@ public class DocController {
     public CommonResponse list(@Valid DocRequest req) {
         CommonResponse commonResponse = new CommonResponse<>();
         PageResponse<DocQueryResponse> docQueryResponseList = docService.list(req);
-        commonResponse.setContent(docQueryResponseList);
+        commonResponse.setData(docQueryResponseList);
         return commonResponse;
     }
 
@@ -72,7 +72,7 @@ public class DocController {
     public CommonResponse findContent(@PathVariable Long id) {
         CommonResponse commonResponse = new CommonResponse<>();
         Doc doc = docService.findContent(id);
-        commonResponse.setContent(doc);
+        commonResponse.setData(doc);
         return commonResponse;
     }
 

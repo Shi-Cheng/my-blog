@@ -2,6 +2,8 @@ package com.blog.myblog.aspect;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
+import com.blog.myblog.utils.RequestContext;
+import com.blog.myblog.utils.SnowFlake;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -11,10 +13,13 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +30,9 @@ public class LogAspect {
 
     private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
 
+    @Resource
+    private SnowFlake snowFlake;
+
     /** 定义一个切点  监控所有com.blog.*. 工程下的 controller包下的所有方法、所有参数 */
     @Pointcut("execution(public * com.blog.*.controller..*Controller.*(..))")
     public void controllerPointcut() {}
@@ -33,6 +41,8 @@ public class LogAspect {
     @Before("controllerPointcut()") // 前置通知，就是在执行页面之前要去做的事情就放到这个前置通知里面
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
+        // 增加日志流水号
+        MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));
         // 开始打印请求日志
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -44,6 +54,8 @@ public class LogAspect {
         LOG.info("请求地址: {} {}", request.getRequestURL().toString(), request.getMethod());
         LOG.info("类名方法: {}.{}", signature.getDeclaringTypeName(), name);
         LOG.info("远程地址: {}", request.getRemoteAddr());
+
+        RequestContext.setRemoteAddr(getRemoteIp(request));
 
 
         // 打印请求参数

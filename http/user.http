@@ -1,0 +1,57 @@
+### 添加用户
+POST http://localhost:8880/user/add
+Content-Type: application/json
+
+{
+  "name": "test",
+  "loginName": "test",
+  "password": "test1234565",
+  "phoneNumber": "18812312312"
+}
+
+### 更新
+POST http://localhost:8880/user/add
+Content-Type: application/json
+
+{
+  "id": 58013519202881536,
+  "name": "test",
+  "loginName": "test",
+  "phoneNumber": "18812312312",
+  "password": "9c57ccedfab4c5cd42d3ec3c4cd237d9"
+}
+###
+POST http://localhost:8880/user/login
+Content-Type: application/json
+
+{
+  "phoneNumber": "18812312312",
+  "password": "test1234565"
+}
+###
+POST http://localhost:8880/user/delete
+Content-Type: application/json
+
+{
+  "id": "55819333145858048"
+}
+
+###
+GET http://localhost:8880/user/getImgCode
+
+###
+GET http://localhost:8880/user/info/58031698956390400
+
+####
+
+GET http://localhost:8880/user/logout/57682672721465344
+
+#######
+
+GET http://localhost:8880/test/set/1231/adc
+###
+
+
+GET http://localhost:8880/redis/get/57668136828276736
+###
+

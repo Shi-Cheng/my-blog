@@ -15,7 +15,7 @@ public class CommonResponse<T> {
     /**
      * 返回泛型数据，自定义类型
      */
-    private T content;
+    private T data;
 
     public boolean getSuccess() {
         return success;
@@ -33,12 +33,12 @@ public class CommonResponse<T> {
         this.message = message;
     }
 
-    public T getContent() {
-        return content;
+    public T getData() {
+        return data;
     }
 
-    public void setContent(T content) {
-        this.content = content;
+    public void setData(T data) {
+        this.data = data;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CommonResponse<T> {
         final StringBuffer sb = new StringBuffer("ResponseDto{");
         sb.append("success=").append(success);
         sb.append(", message='").append(message).append('\'');
-        sb.append(", content=").append(content);
+        sb.append(", data=").append(data);
         sb.append('}');
         return sb.toString();
     }

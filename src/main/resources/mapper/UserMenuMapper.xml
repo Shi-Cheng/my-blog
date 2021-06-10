@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blog.myblog.mapper.UserMenuMapper">
 
-  <select id="selectUserMenuList" resultType="com.blog.myblog.domain.RoleMenu">
+  <select id="selectUserMenuList" resultType="com.blog.myblog.domain.RoleMenuCust">
     select rolemenu.id as id, rolemenu.role_id as roleId, rolemenu.menu_id as menuId, t_menu.pid as pId
     from
         t_role_menu rolemenu,

@@ -27,7 +27,7 @@ public class CategoryController {
     public CommonResponse all(){
         CommonResponse<List<CategoryQueryResponse>> response = new CommonResponse<>();
         List<CategoryQueryResponse> list = categoryService.all();
-        response.setContent(list);
+        response.setData(list);
         return  response;
     }
 
@@ -40,7 +40,7 @@ public class CategoryController {
     public CommonResponse list(@Valid CategoryQueryRequest req){
         CommonResponse<PageResponse<CategoryQueryResponse>> response = new CommonResponse<>();
         PageResponse<CategoryQueryResponse> list = categoryService.list(req);
-        response.setContent(list);
+        response.setData(list);
         return  response;
     }
 

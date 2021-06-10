@@ -43,12 +43,12 @@
 <!--        <table tableName="t_ebook" domainObjectName="EBook"/>-->
         <!--<table tableName="ebook"/>-->
 <!--        <table tableName="t_category" domainObjectName="Category"/>-->
-        <table tableName="t_doc" domainObjectName="Doc"/>
+<!--        <table tableName="t_doc" domainObjectName="Doc"/>-->
         <!--<table tableName="content"/>-->
-<!--        <table tableName="t_user" domainObjectName="User"/>-->
+        <table tableName="t_user" domainObjectName="User"/>
         <!--<table tableName="ebook_snapshot"/>-->
 <!--        <table tableName="t_role" domainObjectName="Role"/>-->
 <!--        <table tableName="t_menu" domainObjectName="Menu"/>-->
-        <table tableName="t_role_menu" domainObjectName="RoleMenu"/>
+<!--        <table tableName="t_role_menu" domainObjectName="RoleMenu"/>-->
     </context>
 </generatorConfiguration>

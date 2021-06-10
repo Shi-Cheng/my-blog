@@ -6,6 +6,11 @@
     <result column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="CHAR" property="password" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="user_status" jdbcType="INTEGER" property="userStatus" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, login_name, `name`, `password`
+    id, login_name, `name`, `password`, phone_number, email, create_time, user_status, 
+    department
   </sql>
   <select id="selectByExample" parameterType="com.blog.myblog.domain.UserExample" resultMap="BaseResultMap">
     select
@@ -100,9 +106,13 @@
   </delete>
   <insert id="insert" parameterType="com.blog.myblog.domain.User">
     insert into t_user (id, login_name, `name`, 
-      `password`)
+      `password`, phone_number, email, 
+      create_time, user_status, department
+      )
     values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{password,jdbcType=CHAR})
+      #{password,jdbcType=CHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{userStatus,jdbcType=INTEGER}, #{department,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.blog.myblog.domain.User">
     insert into t_user
@@ -119,6 +129,21 @@
       <if test="password != null">
         `password`,
       </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="userStatus != null">
+        user_status,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -132,6 +157,21 @@
       </if>
       <if test="password != null">
         #{password,jdbcType=CHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -156,6 +196,21 @@
       <if test="record.password != null">
         `password` = #{record.password,jdbcType=CHAR},
       </if>
+      <if test="record.phoneNumber != null">
+        phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userStatus != null">
+        user_status = #{record.userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.department != null">
+        department = #{record.department,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +221,12 @@
     set id = #{record.id,jdbcType=BIGINT},
       login_name = #{record.loginName,jdbcType=VARCHAR},
       `name` = #{record.name,jdbcType=VARCHAR},
-      `password` = #{record.password,jdbcType=CHAR}
+      `password` = #{record.password,jdbcType=CHAR},
+      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      user_status = #{record.userStatus,jdbcType=INTEGER},
+      department = #{record.department,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +243,21 @@
       <if test="password != null">
         `password` = #{password,jdbcType=CHAR},
       </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=INTEGER},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -190,7 +265,12 @@
     update t_user
     set login_name = #{loginName,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},
-      `password` = #{password,jdbcType=CHAR}
+      `password` = #{password,jdbcType=CHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user_status = #{userStatus,jdbcType=INTEGER},
+      department = #{department,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

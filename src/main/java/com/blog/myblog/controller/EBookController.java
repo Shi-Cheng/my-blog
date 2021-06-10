@@ -27,7 +27,7 @@ public class EBookController {
     public CommonResponse<PageResponse<EBookResponse>> list(EBookRequest req) {
         CommonResponse<PageResponse<EBookResponse>> resp = new CommonResponse<>();
         PageResponse<EBookResponse> list = eBookService.list(req);
-        resp.setContent(list);
+        resp.setData(list);
         return resp;
     }
 
@@ -35,7 +35,7 @@ public class EBookController {
     public CommonResponse<PageResponse<EBookQueryResponse>> queryList(@Valid EBookQueryRequest req) {
         CommonResponse<PageResponse<EBookQueryResponse>> resp = new CommonResponse<>();
         PageResponse<EBookQueryResponse> list = eBookService.queryList(req);
-        resp.setContent(list);
+        resp.setData(list);
         return resp;
     }
 

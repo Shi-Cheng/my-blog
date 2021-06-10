@@ -1,8 +1,9 @@
 package com.blog.myblog.response;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class UserLoginResponse {
+public class UserLoginResponse implements Serializable {
     private Long id;
 
     private String loginName;

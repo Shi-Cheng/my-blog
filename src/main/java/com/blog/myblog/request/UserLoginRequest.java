@@ -4,14 +4,15 @@ import javax.validation.constraints.NotEmpty;
 
 public class UserLoginRequest {
 
-    @NotEmpty(message = "【用户名】不能为空")
     private String loginName;
 
-    @NotEmpty(message = "【昵称】不能为空")
     private String name;
 
     @NotEmpty(message = "【密码】不能为空")
     private String password;
+
+    @NotEmpty(message = "【手机号】不能为空")
+    private String phoneNumber;
 
 
     public String getLoginName() {
@@ -38,16 +39,21 @@ public class UserLoginRequest {
         this.password = password;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", loginName=").append(loginName);
-        sb.append(", name=").append(name);
-        sb.append(", password=").append(password);
-        sb.append("]");
-        return sb.toString();
+        return "UserLoginRequest{" +
+                "loginName='" + loginName + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }

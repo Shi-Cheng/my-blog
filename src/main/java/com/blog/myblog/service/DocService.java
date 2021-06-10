@@ -2,6 +2,8 @@ package com.blog.myblog.service;
 
 import com.blog.myblog.domain.Doc;
 import com.blog.myblog.domain.DocExample;
+import com.blog.myblog.exception.BusinessException;
+import com.blog.myblog.exception.BusinessExceptionCode;
 import com.blog.myblog.mapper.DocMapper;
 import com.blog.myblog.mapper.DocMapperCust;
 import com.blog.myblog.request.DeleteRequest;
@@ -10,6 +12,8 @@ import com.blog.myblog.request.DocSaveRequest;
 import com.blog.myblog.response.DocQueryResponse;
 import com.blog.myblog.response.PageResponse;
 import com.blog.myblog.utils.CopyUtil;
+import com.blog.myblog.utils.RedisUtil;
+import com.blog.myblog.utils.RequestContext;
 import com.blog.myblog.utils.SnowFlake;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -36,6 +40,12 @@ public class DocService {
 
     @Resource
     private DocMapperCust docMapperCust;
+
+    @Resource
+    private RedisUtil redisUtil;
+
+    @Resource
+    private WsSocketService wsSocketService;
 
     public void add(DocSaveRequest req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
@@ -98,12 +108,29 @@ public class DocService {
         docMapperCust.increaseDocViewCount(id);
         return doc;
     }
+
     public void vote(Long id) {
-        docMapperCust.increaseDocVoteCount(id);
+        String ip = RequestContext.getRemoteAddr();
+        LOG.info("ip: {}", ip);
+        // 远程 id 和 ip 作为key， 24小时内不能重复 3600 * 24
+        if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 5)) {
+            docMapperCust.increaseDocVoteCount(id);
+        } else {
+            throw  new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
+
+        // 推送消息
+        //Doc docDB = docMapper.selectByPrimaryKey(id);
+        //webSocketServer.sendInfo("【" + docDB.getName() + "】被点赞！");
+        wsSocketService.sendInfo(id);
     }
 
     public void delete(DeleteRequest req) {
         docMapper.deleteByPrimaryKey(req.getId());
+    }
+
+    public void updateEbookInfo() {
+        docMapperCust.updateEbookInfo();
     }
 
     private List<Doc> getParentList(List<Doc> list) {

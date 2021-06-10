@@ -53,6 +53,9 @@ public class UserService {
 
     @Resource
     private RoleMapper roleMapper;
+
+    @Resource
+    private UtilService utilService;
     /**
      * 新增和更新用户
      * @param req
@@ -61,6 +64,7 @@ public class UserService {
         /**
          * 密码加密
          */
+        //req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
         User user = CopyUtil.copy(req, User.class);
         LOG.info("新增用户：{}", user);
@@ -128,13 +132,17 @@ public class UserService {
      * @return
      */
     public UserLoginResponse login(UserLoginRequest req) {
-        User user = selectUserByName(req.getLoginName());
-        if (ObjectUtils.isEmpty(user.getLoginName())) {
+        User user = selectUserByPhoneNumber(req.getPhoneNumber());
+        if (ObjectUtils.isEmpty(user.getPhoneNumber())) {
             // 用户名不存在
-            LOG.info("用户名不存在, {}", req.getLoginName());
+            LOG.info("手机号不存在, {}", req.getPhoneNumber());
             throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
         } else {
-            if (user.getPassword().equals(req.getPassword())) {
+            String passwordHex = DigestUtils.md5DigestAsHex(req.getPassword().getBytes());
+            LOG.info("passwordHex:{}, password:{}", passwordHex, user.getPassword());
+
+            System.out.println("======" + user.getPassword().equals(passwordHex));
+            if (user.getPassword().equals(passwordHex)) {
                 UserLoginResponse response = CopyUtil.copy(user, UserLoginResponse.class);
                 return response;
             } else {
@@ -155,14 +163,20 @@ public class UserService {
     }
 
 
-    public UserLoginResponse getUserInfo(String token) {
-        User user = selectUserByName(token);
+    public UserLoginResponse getUserInfo(User userRedis) {
+
+        User user = selectUserByName(userRedis.getName());
+        LOG.info("user: {}", user);
         if (ObjectUtils.isEmpty(user)) {
             throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
         } else {
-            List<RoleMenu> roles = userMenuMapper.selectUserMenuList(user.getId().toString());
+            // role_menu
+            List<RoleMenuCust> roles = userMenuMapper.selectUserMenuList(user.getId().toString());
+            //List<RoleMenuResponse> roleMenuResponses = userMenuMapper.selectUserMenuList(user.getId().toString());
+            // 用户角色
             List<Role> userRole = userRoleMapper.selectUserRole(user.getId().toString());
             Role role = CopyUtil.copy(userRole.get(0), Role.class);
+            //
             List<RoleMenuResponse> roleMenuResponses = CopyUtil.copyList(roles, RoleMenuResponse.class);
             List<String> menuLists = selectMenuId(roleMenuResponses);
             List<String> list = arrayListUtil.duplicate(menuLists);
@@ -186,6 +200,27 @@ public class UserService {
         UserExample.Criteria criteria = userExample.createCriteria();
         if (ObjectUtils.isEmpty(loginName)) {
             criteria.andNameEqualTo(loginName);
+        }
+
+        List<User> users = userMapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(users)) {
+            LOG.info("登录成功");
+            return null;
+        } else {
+            return users.get(0);
+        }
+    }
+
+    /**
+     * 判断用户手机号是否存在
+     * @param phoneNumber
+     * @return
+     */
+    public User selectUserByPhoneNumber(String phoneNumber) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        if (ObjectUtils.isEmpty(phoneNumber)) {
+            criteria.andPhoneNumberEqualTo(phoneNumber);
         }
 
         List<User> users = userMapper.selectByExample(userExample);

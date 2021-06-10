@@ -19,6 +19,12 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(logInterceptor)
-                .addPathPatterns("/**").excludePathPatterns("/login"); // 把所有的接口都要去打印接口耗时，但当校验login接口时，此时不用去拦截
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/user/login",
+                        "/redis/**",
+                        "/doc/all",
+                        "/doc/vote"
+                ); // 把所有的接口都要去打印接口耗时，但当校验login接口时，此时不用去拦截
     }
 }
