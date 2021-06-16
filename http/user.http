@@ -3,10 +3,10 @@ POST http://localhost:8880/user/add
 Content-Type: application/json
 
 {
-  "name": "test",
-  "loginName": "test",
-  "password": "test1234565",
-  "phoneNumber": "18812312312"
+  "name": "zhangsan",
+  "loginName": "zhangsan",
+  "password": "ABC00000",
+  "phoneNumber": "13455406600"
 }
 
 ### 更新
@@ -14,19 +14,19 @@ POST http://localhost:8880/user/add
 Content-Type: application/json
 
 {
-  "id": 58013519202881536,
-  "name": "test",
-  "loginName": "test",
-  "phoneNumber": "18812312312",
-  "password": "9c57ccedfab4c5cd42d3ec3c4cd237d9"
+  "id": 59819247920091136,
+  "name": "zhangsan",
+  "loginName": "zhangsan",
+  "phoneNumber": "13455406600",
+  "password": "047c78d4313b2953c02ab54b350c65b1"
 }
 ###
 POST http://localhost:8880/user/login
 Content-Type: application/json
 
 {
-  "phoneNumber": "18812312312",
-  "password": "test1234565"
+  "phoneNumber": "13455406600",
+  "password": "047c78d4313b2953c02ab54b350c65b1"
 }
 ###
 POST http://localhost:8880/user/delete
@@ -40,11 +40,12 @@ Content-Type: application/json
 GET http://localhost:8880/user/getImgCode
 
 ###
-GET http://localhost:8880/user/info/58031698956390400
+GET http://localhost:8880/user/info/59829052189577216
+
 
 ####
 
-GET http://localhost:8880/user/logout/57682672721465344
+GET http://localhost:8880/user/logout/58387884004216830
 
 #######
 

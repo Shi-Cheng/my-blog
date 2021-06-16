@@ -75,10 +75,10 @@ public class CodeUtil {
             fractions[i] = rand.nextFloat();
         }
         Arrays.sort(fractions);
-// 设置边框色
+        // 设置边框色
         g2.setColor(Color.GRAY);
         g2.fillRect(0, 0, w, h);
-// 设置背景色
+        // 设置背景色
         Color c = getRandColor(200, 250);
         g2.setColor(c);
         g2.fillRect(0, 2, w, h - 4);

@@ -70,6 +70,7 @@ public class UserService {
         LOG.info("新增用户：{}", user);
         if (ObjectUtils.isEmpty(user.getId())) {
             User userDB = selectUserByName(req.getName());
+            LOG.info("用户：{}", userDB);
             if (ObjectUtils.isEmpty(userDB)) {
                 // 新增用户
                 user.setId(snowFlake.nextId());
@@ -198,10 +199,7 @@ public class UserService {
     public User selectUserByName(String loginName) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
-        if (ObjectUtils.isEmpty(loginName)) {
-            criteria.andNameEqualTo(loginName);
-        }
-
+        criteria.andNameEqualTo(loginName);
         List<User> users = userMapper.selectByExample(userExample);
         if (CollectionUtils.isEmpty(users)) {
             LOG.info("登录成功");
@@ -219,10 +217,7 @@ public class UserService {
     public User selectUserByPhoneNumber(String phoneNumber) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
-        if (ObjectUtils.isEmpty(phoneNumber)) {
-            criteria.andPhoneNumberEqualTo(phoneNumber);
-        }
-
+        criteria.andPhoneNumberEqualTo(phoneNumber);
         List<User> users = userMapper.selectByExample(userExample);
         if (CollectionUtils.isEmpty(users)) {
             LOG.info("登录成功");

@@ -110,3 +110,32 @@ where t1.role_id = t2.role_id and t3.id = 56251244699848704
 
 
 
+-- 快照表
+-- 统计纬度
+-- 统计数值：总阅读数、总点赞数、今日阅读数、今日点赞数、今日预计阅读数、今日预计阅读增长
+-- 统计报表： 30天阅读/点赞趋势图、文档阅读量排名（热门文章）、文档点赞量排名（优质文章）
+-- 业务表统计：所有的报表数据都是从业务表直接获取的
+-- 优点： 实时性好，工作量（？）
+-- 缺点： 对业务性能有影响，有些数据统计无法实现；
+-- 中间表设计：定时将业务表数据汇总到中间表，报表数据从中间表获取
+-- 优点：性能好、可实现多功能统计；
+-- 缺点： 工作量大
+
+
+drop table if exists `t_snapshot`;
+
+create table `t_snapshot` (
+`id` bigint NOT null comment 'id',
+`ebook_id` bigint not null default 0 comment '电子书id',
+`date` date not null comment '快照日期',
+`view_count` int not null default 0 comment '阅读数',
+`vote_count` int not null default 0 comment '点赞数',
+`view_increase` int not null default 0 comment '阅读数增长',
+`vote_increase` int not null default 0 comment '点赞数增长',
+primary key (`id`),
+unique key `ebook_id_date_unique` (`ebook_id`, `date`)
+) engine=innodb default charset=utf8mb4 comment='电子书快照表'
+
+
+
+

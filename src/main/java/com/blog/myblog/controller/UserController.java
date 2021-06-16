@@ -1,27 +1,22 @@
 package com.blog.myblog.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.blog.myblog.auditlog.aspect.UserLogin;
 import com.blog.myblog.domain.User;
 import com.blog.myblog.request.*;
 import com.blog.myblog.response.*;
 import com.blog.myblog.service.UserService;
 import com.blog.myblog.utils.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.DigestUtils;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -72,6 +67,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @UserLogin
     public CommonResponse<TokenResponse> login(@Valid @RequestBody UserLoginRequest req) {
         CommonResponse<TokenResponse> commonResponse = new CommonResponse<>();
         UserLoginResponse loginResponse = userService.login(req);
@@ -87,8 +83,8 @@ public class UserController {
         return  commonResponse;
     }
 
-    @GetMapping("/info/")
-    public CommonResponse getInfo(@RequestParam Long info) {
+    @GetMapping("/info/{info}")
+    public CommonResponse getInfo(@PathVariable Long info) {
         CommonResponse commonResponse = new CommonResponse<>();
         Object userRedis = redisUtil.getRedis(info);
 
@@ -107,7 +103,7 @@ public class UserController {
     }
 
     @GetMapping("/logout/{token}")
-    public CommonResponse logout(@RequestParam String token) {
+    public CommonResponse logout(@PathVariable String token) {
         CommonResponse response = new CommonResponse();
         redisTemplate.delete(token);
         LOG.info("从redis中删除的token值为：{}", token);
@@ -144,15 +140,7 @@ public class UserController {
         Long codeTime = Long.valueOf(req.get("createTime"));
         String imgcode = req.get("imgcode");
         Date date = new Date();
-
-        LOG.info("code：{}", code);
-        LOG.info("codeTime：{}", codeTime);
-        LOG.info("imgcode：{}", imgcode);
-
-        LOG.info("HexCode:{}", HexStringUtil.toHexString(Base64.getDecoder().decode(imgcode.toLowerCase())));
-
         int timeout = 1000 * 60;
-
         if (StringUtils.isEmpty(imgcode) || code == null || !(HexStringUtil.toHexString(Base64.getDecoder().decode(imgcode.toLowerCase())).equals(code))) {
             response.setMessage("验证码错误，请重新输入！");
         } else if ((date.getTime() - codeTime) / timeout > 1) {

@@ -1,0 +1,12 @@
+
+###
+GET http://localhost:8880/statistic/genStatistic
+
+###
+GET http://localhost:8880/statistic/getStatisticList
+
+###
+GET http://localhost:8880/statistic/getStatistic30List
+
+
+
