@@ -1,5 +1,4 @@
 package com.blog.myblog.job;
-
 import com.blog.myblog.service.SnapshotService;
 import com.blog.myblog.utils.SnowFlake;
 import org.slf4j.Logger;

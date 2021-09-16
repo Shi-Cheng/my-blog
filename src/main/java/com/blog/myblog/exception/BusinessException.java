@@ -1,5 +1,4 @@
 package com.blog.myblog.exception;
-
 public class BusinessException extends RuntimeException{
 
     private BusinessExceptionCode code;
