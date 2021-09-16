@@ -1,5 +1,4 @@
 package com.blog.myblog.service;
-
 import com.blog.myblog.mapper.SnapshotMapperCust;
 import com.blog.myblog.response.SnapshotResponse;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,4 @@
 package com.blog.myblog.utils;
-
 import org.bouncycastle.util.Strings;
 import org.bouncycastle.util.encoders.Encoder;
 import org.bouncycastle.util.encoders.HexEncoder;

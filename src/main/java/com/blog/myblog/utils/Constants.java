@@ -1,5 +1,4 @@
 package com.blog.myblog.utils;
-
 /**
  * 系统常量
  */

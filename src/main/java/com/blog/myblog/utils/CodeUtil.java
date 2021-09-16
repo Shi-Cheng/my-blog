@@ -1,5 +1,4 @@
 package com.blog.myblog.utils;
-
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;

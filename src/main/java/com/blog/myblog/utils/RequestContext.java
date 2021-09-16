@@ -1,5 +1,4 @@
 package com.blog.myblog.utils;
-
 import java.io.Serializable;
 
 public class RequestContext implements Serializable {
