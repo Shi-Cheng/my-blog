@@ -1,6 +1,5 @@
 package com.blog.myblog.domain;
 
-
 public class Doc {
     private Long id;
 

@@ -1,5 +1,4 @@
 package com.blog.myblog.domain;
-
 import java.util.Date;
 
 public class User {

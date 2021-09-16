@@ -1,5 +1,4 @@
 package com.blog.myblog.domain;
-
 public class Test {
     private Integer id;
 
