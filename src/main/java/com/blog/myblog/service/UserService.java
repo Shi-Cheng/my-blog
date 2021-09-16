@@ -165,7 +165,6 @@ public class UserService {
 
 
     public UserLoginResponse getUserInfo(User userRedis) {
-
         User user = selectUserByName(userRedis.getName());
         LOG.info("user: {}", user);
         if (ObjectUtils.isEmpty(user)) {

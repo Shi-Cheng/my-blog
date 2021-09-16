@@ -15,7 +15,7 @@ public class LogService {
     public void put(JoinPoint joinPoint, String methodName, String module, String description) {
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         String header = request.getHeader(tokenHeader);
-        Log log = new Log();
+        //Log log = new Log();
 
     }
 }
