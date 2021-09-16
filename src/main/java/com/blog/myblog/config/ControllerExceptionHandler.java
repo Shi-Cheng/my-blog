@@ -1,5 +1,4 @@
 package com.blog.myblog.config;
-
 import com.blog.myblog.exception.BusinessException;
 import com.blog.myblog.response.CommonResponse;
 import org.slf4j.Logger;

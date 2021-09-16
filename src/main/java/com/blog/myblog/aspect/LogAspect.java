@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component // 是SpringBoot最基本的注解，把这个类交给Spring进行管理
 public class LogAspect {
-
     private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
 
     @Resource

@@ -1,6 +1,5 @@
 package com.blog.myblog.auditlog.aspect;
 
-
 public @interface Log {
     /**
      * 模块
