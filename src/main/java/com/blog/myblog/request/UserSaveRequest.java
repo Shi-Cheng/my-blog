@@ -1,5 +1,4 @@
 package com.blog.myblog.request;
-
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;

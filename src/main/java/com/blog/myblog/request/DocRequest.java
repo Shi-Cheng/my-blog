@@ -1,5 +1,4 @@
 package com.blog.myblog.request;
-
 public class DocRequest extends PageRequest {
 
     private Long id;

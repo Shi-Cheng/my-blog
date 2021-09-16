@@ -1,4 +1,5 @@
 package com.blog.myblog.request;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 

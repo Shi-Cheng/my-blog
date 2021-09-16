@@ -1,5 +1,4 @@
 package com.blog.myblog.request;
-
 import javax.validation.constraints.NotEmpty;
 
 public class DocQueryRequest {

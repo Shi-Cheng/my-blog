@@ -1,5 +1,4 @@
 package com.blog.myblog.request;
-
 public class UserQueryRequest extends PageRequest {
 
     private String loginName;

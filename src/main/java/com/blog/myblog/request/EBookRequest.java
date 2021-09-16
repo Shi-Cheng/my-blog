@@ -1,5 +1,4 @@
 package com.blog.myblog.request;
-
 public class EBookRequest extends PageRequest {
 
     private String name;
