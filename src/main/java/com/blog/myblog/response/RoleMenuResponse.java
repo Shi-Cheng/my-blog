@@ -1,5 +1,4 @@
 package com.blog.myblog.response;
-
 import com.blog.myblog.domain.RoleMenu;
 
 public class RoleMenuResponse extends RoleMenu {

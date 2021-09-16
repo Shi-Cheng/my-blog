@@ -1,5 +1,4 @@
 package com.blog.myblog.response;
-
 import java.io.Serializable;
 import java.util.List;
 

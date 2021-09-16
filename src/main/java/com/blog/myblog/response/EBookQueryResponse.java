@@ -1,5 +1,4 @@
 package com.blog.myblog.response;
-
 public class EBookQueryResponse {
 
     private String name;

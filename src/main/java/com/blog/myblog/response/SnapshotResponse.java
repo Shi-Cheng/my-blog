@@ -1,5 +1,4 @@
 package com.blog.myblog.response;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;

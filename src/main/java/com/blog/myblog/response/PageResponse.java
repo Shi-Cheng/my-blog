@@ -1,5 +1,4 @@
 package com.blog.myblog.response;
-
 import java.util.List;
 
 public class PageResponse<T> {

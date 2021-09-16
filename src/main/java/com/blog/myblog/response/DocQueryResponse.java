@@ -1,5 +1,4 @@
 package com.blog.myblog.response;
-
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 

@@ -1,5 +1,4 @@
 package com.blog.myblog.response;
-
 public class MenuResponse implements Comparable<MenuResponse> {
     private Long id;
 
