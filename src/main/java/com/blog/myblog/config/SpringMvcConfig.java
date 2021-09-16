@@ -2,7 +2,6 @@
  * 增加一个拦截器，注入 LogInterceptor 拦截器
  */
 package com.blog.myblog.config;
-
 import com.blog.myblog.interceptor.LogInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

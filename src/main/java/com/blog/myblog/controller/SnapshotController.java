@@ -1,5 +1,4 @@
 package com.blog.myblog.controller;
-
 import com.blog.myblog.response.CommonResponse;
 import com.blog.myblog.response.SnapshotResponse;
 import com.blog.myblog.service.SnapshotService;
