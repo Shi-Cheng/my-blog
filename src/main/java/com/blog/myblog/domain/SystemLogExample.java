@@ -1,4 +1,4 @@
-package com.blog.myblog.domain;0
+package com.blog.myblog.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
