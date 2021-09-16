@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.response.SnapshotResponse;
 
 import java.util.List;

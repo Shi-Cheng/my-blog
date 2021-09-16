@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.domain.Role;
 import com.blog.myblog.domain.RoleExample;
 import java.util.List;

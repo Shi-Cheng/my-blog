@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.domain.SystemLog;
 import com.blog.myblog.domain.SystemLogExample;
 import java.util.List;

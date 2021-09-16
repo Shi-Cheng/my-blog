@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.domain.Role;
 import org.apache.ibatis.annotations.Param;
 

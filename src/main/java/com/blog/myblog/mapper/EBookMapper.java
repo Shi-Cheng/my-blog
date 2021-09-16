@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.domain.EBook;
 import com.blog.myblog.domain.EBookExample;
 import java.util.List;

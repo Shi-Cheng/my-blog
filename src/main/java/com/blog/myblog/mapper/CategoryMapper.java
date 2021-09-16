@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.domain.Category;
 import com.blog.myblog.domain.CategoryExample;
 import java.util.List;

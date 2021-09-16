@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.domain.Snapshot;
 import com.blog.myblog.domain.SnapshotExample;
 import java.util.List;

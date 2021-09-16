@@ -1,5 +1,4 @@
 package com.blog.myblog.mapper;
-
 import com.blog.myblog.domain.Menu;
 import com.blog.myblog.domain.MenuExample;
 import java.util.List;
