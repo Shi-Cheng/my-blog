@@ -1,0 +1,50 @@
+GET http://localhost:8880/doc/getDocTree
+
+###
+
+GET http://localhost:8880/doc/list
+
+
+### 新增
+POST http://localhost:8880/doc/add
+Content-Type: application/json
+
+{
+  "name": "文档2.4",
+  "ebookId": 1,
+  "parentId": 3,
+  "sort": 1
+}
+
+
+### 更新
+POST http://localhost:8880/doc/add
+Content-Type: application/json
+
+{
+  "id": 6,
+  "name": "文档2.3",
+  "ebookId": 1,
+  "parentId": 3,
+  "sort": 1
+}
+
+###
+
+POST http://localhost:8880/doc/delete
+Content-Type: application/json
+
+{
+  "id": 6
+}
+
+####
+GET http://localhost:8880/doc/vote/7
+
+
+###
+GET http://localhost:8880/doc/view/6
+
+
+###
+GET http://localhost:8880/doc/view/6

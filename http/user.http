@@ -1,0 +1,58 @@
+### 添加用户
+POST http://localhost:8880/user/add
+Content-Type: application/json
+
+{
+  "name": "zhangsan",
+  "loginName": "zhangsan",
+  "password": "ABC00000",
+  "phoneNumber": "13455406600"
+}
+
+### 更新
+POST http://localhost:8880/user/add
+Content-Type: application/json
+
+{
+  "id": 59819247920091136,
+  "name": "zhangsan",
+  "loginName": "zhangsan",
+  "phoneNumber": "13455406600",
+  "password": "047c78d4313b2953c02ab54b350c65b1"
+}
+###
+POST http://localhost:8880/user/login
+Content-Type: application/json
+
+{
+  "phoneNumber": "13455406600",
+  "password": "047c78d4313b2953c02ab54b350c65b1"
+}
+###
+POST http://localhost:8880/user/delete
+Content-Type: application/json
+
+{
+  "id": "55819333145858048"
+}
+
+###
+GET http://localhost:8880/user/getImgCode
+
+###
+GET http://localhost:8880/user/info/59829052189577216
+
+
+####
+
+GET http://localhost:8880/user/logout/58387884004216830
+
+#######
+
+GET http://localhost:8880/test/set/1231/adc
+###
+
+
+GET http://localhost:8880/redis/get/57668136828276736
+###
+

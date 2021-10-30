@@ -1,0 +1,111 @@
+GET http://localhost:8880/book/list
+
+###
+GET http://localhost:8880/book/getList?name=教材&page=1&size=2
+
+
+###
+GET http://localhost:8880/book/queryList?name=教材&size=1&page=2
+
+
+###
+
+POST http://localhost:8880/book/save
+Content-Type: application/json
+
+{
+  "name": "GO",
+  "description": "GO 是最好的一门开发语言"
+}
+
+###
+POST http://localhost:8880/book/deleted
+Content-Type: application/json
+
+{
+  "id": 53653283042103296
+}
+
+###
+
+GET http://localhost:8880/category/list
+###
+
+POST http://localhost:8880/category/save
+Content-Type: application/json
+
+{
+  "id": 504,
+  "parentId": 500,
+  "name": "颜色配置",
+  "sort": 504
+}
+
+###
+POST http://localhost:8880/category/deleted
+Content-Type: application/json
+
+{
+  "id": 504
+}
+
+###
+GET http://localhost:8880/category/all
+
+
+### 添加用户
+POST http://localhost:8880/user/add
+Content-Type: application/json
+
+{
+
+  "name": "test",
+  "loginName": "test",
+  "password": "test1234565"
+}
+
+### 更新
+POST http://localhost:8880/user/add
+Content-Type: application/json
+
+{
+  "id": 55819333145858048,
+  "name": "test",
+  "loginName": "test",
+  "password": "test1234565"
+}
+###
+POST http://localhost:8880/user/login
+Content-Type: application/json
+
+{
+  "name": "test",
+  "loginName": "test",
+  "password": "ec8f3408f459b1792eea0e25045deafd"
+}
+###
+POST http://localhost:8880/user/delete
+Content-Type: application/json
+
+{
+  "id": "55819333145858048"
+}
+
+###
+GET http://localhost:8880/user/info?token=test
+
+##### Content-Type: application/x-www-form-urlencoded
+GET http://localhost:9999/admin/get_info?token=B5782E19B0AA8689AAEBC03DC996EE30
+####
+
+GET http://localhost:8880/user/logout/test
+
+#######
+
+GET http://localhost:8880/test/set/1231/adc
+###
+
+
+GET http://localhost:8880/test/get/56205866600370176
+###
+
