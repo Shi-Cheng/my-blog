@@ -1,0 +1,1 @@
+可以叫domain, 或entity，或POJO，实体类就是和数据库表一一映射
